@@ -1,4 +1,4 @@
-:#include "PaqueteDatagrama.h"   // Comillas pra indicar que la interfaz (biblioteca) esta en la misma carpeta
+#include "PaqueteDatagrama.h"   // Comillas pra indicar que la interfaz (biblioteca) esta en la misma carpeta
 #include <iostream>
 #include <cstdlib>
 #include <string.h>
@@ -6,15 +6,15 @@ using namespace std;
 
 /*Constructores*/
 PaqueteDatagrama::PaqueteDatagrama (unsigned int tam) { //Crea mensaje vacio de longitud tam
-  datos = new char[tam];
+  datos = new char[tam + 1];
   longitud = tam;
 }
 
                                 /*(datos, longitud, IP envío, puerto envío) */
-PaqueteDatagrama::PaqueteDatagrama (data *msj, unsigned int tam, char *IP,
+PaqueteDatagrama::PaqueteDatagrama (char *msj, unsigned int tam, char *IP,
                                     int pto) {
-  datos = new char[tam];
-  longitud = sizeof(data);
+  datos = new char[tam + 1];
+  longitud = tam;
   memcpy (datos, msj, longitud);        //Se llena el mensaje
   strcpy (ip, IP);
   puerto = pto;
@@ -22,7 +22,7 @@ PaqueteDatagrama::PaqueteDatagrama (data *msj, unsigned int tam, char *IP,
 
 //Destructor: Borrar los datos
 PaqueteDatagrama::~PaqueteDatagrama () {
-  delete datos;
+  delete[]datos;
 }
 
 char *
@@ -40,14 +40,14 @@ PaqueteDatagrama::obtienePuerto () {
   return puerto;
 }
 
-data *
+char *
 PaqueteDatagrama::obtieneDatos () {
   return datos;
 }
 
 /*Para el primer constructor*/
 void
-PaqueteDatagrama::inicializaDatos (data *msj) {
+PaqueteDatagrama::inicializaDatos (char *msj) {
   memcpy (datos, msj, longitud);
 }
 
